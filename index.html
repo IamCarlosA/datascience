@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+  <div id="demo">
+    <h2>The XMLHttpRequest Object</h2>
+    <button type="button" onclick="loadDoc()">Change Content</button>
+  </div>
+
+  <form>
+    <p>NumTimesPrg: <input type="text" id="NumTimesPrg" /></p>
+    <p>PlGlcConc: <input type="text" id="PlGlcConc" /></p>
+    <p>BloodP: <input type="text" id="BloodP" /></p>
+    <p>SkinThick: <input type="text" id="SkinThick" /></p>
+    <p>TwoHourSerIns: <input type="text" id="TwoHourSerIns" /></p>
+    <p>BMI: <input type="text" id="BMI" /></p>
+    <p>DiPedFunc: <input type="text" id="DiPedFunc" /></p>
+    <p>Age: <input type="text" id="Age" /></p>
+    <p><input type="button" value="Diagnostic" /></p>
+  </form>
+
+  <script>
+    function loadDoc() {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          document.getElementById("demo").innerHTML =
+            this.responseText;
+        }
+      };
+      xhttp.open("POST", "http://localhost:5000/predict", true);
+      // Add the required HTTP header for form data POST requests
+      //xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhttp.setRequestHeader("Content-Type", "application/json");
+      var datos = { "CRIM": 0.00632, "ZN": 18.0, "INDUS": 2.31, "CHAS": 0, "NOX": 0.538, "RM": 6.575, "AGE": 65.2, "DIS": 4.0900, "RAD": 1, "TAX": 296.0, "PTRATIO": 15.3, "B": 356.90, "LSTAT": 4.98}
+      //var datos = {"NumTimesPrg":1, "PlGlcConc":85, "BloodP":66, "SkinThick":29, "TwoHourSerIns":0, "BMI":26.6, "DiPedFunc":0.351, "Age":31}
+      var data = JSON.stringify(datos);
+      xhttp.send(data);
+      //xhttp.send();
+    }
+  </script>
+
+</body>
+
+</html>
