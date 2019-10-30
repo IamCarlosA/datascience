@@ -24,38 +24,22 @@ def predict():
 
 	content = request.json
 	print(content)
-	"""
-	CRIM = content['CRIM']
-	ZN = content['	ZN']
-	INDUS = content['INDUS'] 
-	CHAS = content['CHAS']  
-	NOX = content['NOX']    
-	RM = content['RM']   
-	AGE = content['AGE']    
-	DIS = content['DIS']
-	RAD = content['RAD']   
-	TAX = content['TAX']
-	PTRATIO = content['PTRATIO']       
-	B = content['B'] 
-	LSTAT = content['LSTAT']
-
-	"""
-	CRIM = 0.00632
-	ZN = 8.0  
-	INDUS = 2.31  
-	CHAS = 1    
-	NOX = 0.538     
-	RM = 6.575   
-	AGE = 65.2    
-	DIS = 1.0900 
-	RAD = 1    
-	TAX = 296.0
-	PTRATIO = 15.3       
-	B = 26.90  
-	LSTAT = 4.98  
 	
+	crim = content['crim']
+	zn = content['zn']
+	indus = content['indus'] 
+	chas = content['chas']  
+	nox = content['nox']    
+	rm = content['rm']   
+	age = content['age']    
+	dis = content['dis']
+	rad = content['rad']   
+	tax = content['tax']
+	ptratio = content['ptratio']       
+	b = content['b'] 
+	lstat = content['lstat']
 
-	new_df = pd.DataFrame([[CRIM, ZN, INDUS, CHAS, NOX, RM, AGE, DIS, RAD, TAX, PTRATIO, B, LSTAT]])
+	new_df = pd.DataFrame([[crim, zn, indus, chas, nox, rm, age, dis, rad, tax, ptratio, b, lstat]])
 	# We scale those values like the others
 	new_df_scaled = scaler.transform(new_df)
 
@@ -64,10 +48,10 @@ def predict():
 	
 	diagnostic = prediction[0]
 
-	return jsonify({'housing ':str(diagnostic)})
+	return jsonify({'PRECIO ':str(diagnostic)})
 
 
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

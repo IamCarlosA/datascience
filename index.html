@@ -1,45 +1,122 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <title>housting</title>
+</head>
 
 <body>
+  <div class="container">
 
-  <div id="demo">
-    <h2>The XMLHttpRequest Object</h2>
-    <button type="button" onclick="loadDoc()">Change Content</button>
-  </div>
 
-  <form>
-    <p>NumTimesPrg: <input type="text" id="NumTimesPrg" /></p>
-    <p>PlGlcConc: <input type="text" id="PlGlcConc" /></p>
-    <p>BloodP: <input type="text" id="BloodP" /></p>
-    <p>SkinThick: <input type="text" id="SkinThick" /></p>
-    <p>TwoHourSerIns: <input type="text" id="TwoHourSerIns" /></p>
-    <p>BMI: <input type="text" id="BMI" /></p>
-    <p>DiPedFunc: <input type="text" id="DiPedFunc" /></p>
-    <p>Age: <input type="text" id="Age" /></p>
-    <p><input type="button" value="Diagnostic" /></p>
-  </form>
 
-  <script>
-    function loadDoc() {
-      var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          document.getElementById("demo").innerHTML =
+    <form class="mt-sm-4" action="http://localhost:5000/predict" method="POST" name="form">
+      <div class="form-row">
+        <div class="col-md-4 mb-3">
+          <label for="crim">CRIM</label>
+          <input type="number" step="0.01" class="form-control" name="crim" value="0.00632">
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="zn">ZN</label>
+          <input type="number" step="0.01" class="form-control" name="zn" value="8.0">
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="indus">INDUS</label>
+          <div class="input-group">
+            <input type="number" step="0.01" class="form-control" name="indus" value="2.31">
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-4 mb-3">
+          <label for="chas">CHAS</label>
+          <input type="number" step="0.01" class="form-control" name="chas" value="1">
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="nox">NOX</label>
+          <input type="number" step="0.01" class="form-control" name="nox" value="0.538">
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="rm">RM</label>
+          <div class="input-group">
+            <input type="number" step="0.01" class="form-control" name="rm" value="6.575">
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-4 mb-3">
+          <label for="age">AGE</label>
+          <input type="number" step="0.01" class="form-control" name="age" value="65.2">
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="dis">DIS</label>
+          <input type="number" step="0.01" class="form-control" name="dis" value="1.0900">
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="rad">RAD</label>
+          <div class="input-group">
+            <input type="number" step="0.01" class="form-control" name="rad" value="1">
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-4 mb-3">
+          <label for="tax">TAX</label>
+          <input type="number" step="0.01" class="form-control" name="tax" value="296.0">
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="pratio">PTRATIO</label>
+          <input type="number" step="0.01" class="form-control" name="ptratio" value="15.3">
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="b">B</label>
+          <div class="input-group">
+            <input type="number" step="0.01" class="form-control" name="b" value="26.90">
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-4 mb-3">
+          <label for="lstat">LSTAT</label>
+          <input type="number" step="0.01" class="form-control" name="lstat" value="4.98">
+        </div>
+      </div>
+      <input type="button" class="btn btn-primary " onclick="loadDoc()" value="PRECIO">
+      <div id="demo"></div>
+    </form>
+    
+    <script type="text/javascript">
+      function loadDoc() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("demo").innerHTML =
             this.responseText;
+          }
+        };
+        xhttp.open("POST", "http://localhost:5000/predict", true);
+    
+        xhttp.setRequestHeader("Content-Type", "application/json");
+        var el = document.querySelector('form');
+        var matches = el.querySelectorAll('input[name]');
+    
+        var data = {};
+        for(var i=0; i< matches.length; i++){
+          data[matches[i].name] = matches[i].value;
         }
-      };
-      xhttp.open("POST", "http://localhost:5000/predict", true);
-      // Add the required HTTP header for form data POST requests
-      //xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xhttp.setRequestHeader("Content-Type", "application/json");
-      var datos = { "CRIM": 0.00632, "ZN": 18.0, "INDUS": 2.31, "CHAS": 0, "NOX": 0.538, "RM": 6.575, "AGE": 65.2, "DIS": 4.0900, "RAD": 1, "TAX": 296.0, "PTRATIO": 15.3, "B": 356.90, "LSTAT": 4.98}
-      //var datos = {"NumTimesPrg":1, "PlGlcConc":85, "BloodP":66, "SkinThick":29, "TwoHourSerIns":0, "BMI":26.6, "DiPedFunc":0.351, "Age":31}
-      var data = JSON.stringify(datos);
-      xhttp.send(data);
-      //xhttp.send();
-    }
-  </script>
+        var data = JSON.stringify(data);
+        xhttp.send(data);
+          
+        }
+      </script>
 
 </body>
 
