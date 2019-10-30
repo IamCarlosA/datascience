@@ -48,7 +48,7 @@ def predict():
 	
 	diagnostic = prediction[0]
 
-	return jsonify({'PRECIO ':str(diagnostic)})
+	return jsonify({'COSTO PREDECIDO':str(diagnostic)})
 
 
 
